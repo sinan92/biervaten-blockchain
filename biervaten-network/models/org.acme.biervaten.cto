@@ -1,0 +1,75 @@
+namespace org.acme.biervaten
+
+concept Address {
+  o String city optional
+  o String country
+  o String street optional
+  o String zipcode optional
+}
+
+concept UnitPrice {
+  o ProductType productType
+  o Long price
+}
+
+abstract participant Business identified by email {
+  o String email
+  o Address address
+}
+
+enum Volume {
+  o FIFTY
+  o THIRTY
+}
+
+enum ProductType {
+  o FIFTY_LITER_OLD
+  o THIRTY_LITER_OLD
+  o FIFTY_LITER_NEW
+  o THIRTY_LITER_NEW
+}
+
+/*enum ShipmentStatus {
+  o CREATED
+  o IN_TRANSIT
+  o ARRIVED
+}*/
+
+asset Shipment identified by shipmentId {
+  o String shipmentId
+//  o ShipmentStatus status
+  o ProductType[] bought
+  o ProductType[] sold
+  o DateTime notificationDate
+  --> Contract contract
+}
+
+transaction SetupDemo {
+}
+
+abstract transaction ShipmentTransaction {
+  --> Shipment shipment
+}
+
+transaction ShipmentReceived extends ShipmentTransaction {
+}
+
+participant Brewery extends Business {
+}
+
+participant Cafe extends Business {
+}
+
+asset Barrel identified by barcode {
+  o String barcode
+  o Volume volume
+  o DateTime expireDate
+}
+
+asset Contract identified by contractId {
+  o String contractId
+  --> Brewery brewery 
+  --> Cafe cafe
+  o DateTime arrivalDateTime
+  o UnitPrice[] unitPrice
+}
