@@ -30,6 +30,6 @@ rule Admin {
   description: "Admin can do everything."
   participant: "org.hyperledger.composer.system.NetworkAdmin#admin"
   operation: ALL
-  resource: "org.hyperledger.composer.system.**"
+  resource: "org.acme.**"
   action: ALLOW
 }

@@ -39,7 +39,7 @@ export class BreweryComponent implements OnInit {
   constructor(public serviceBrewery: BreweryService, fb: FormBuilder) {
     this.myForm = fb.group({
       email: this.email,
-      address: this.address
+      address: {"country": this.address}
     });
   };
 
@@ -97,7 +97,7 @@ export class BreweryComponent implements OnInit {
     this.participant = {
       $class: 'org.acme.biervaten.Brewery',
       'email': this.email.value,
-      'address': this.address.value
+      'address': {"country": "Test"}
     };
 
     this.myForm.setValue({
@@ -128,10 +128,10 @@ export class BreweryComponent implements OnInit {
    updateParticipant(form: any): Promise<any> {
     this.participant = {
       $class: 'org.acme.biervaten.Brewery',
-      'address': this.address.value
+      'address': "this.address"
     };
 
-    return this.serviceBrewery.updateParticipant(form.get('email').value, this.participant)
+    return this.serviceBrewery.updateParticipant(form.get('email').value, form.get('address'))
     .toPromise()
     .then(() => {
       this.errorMessage = null;
